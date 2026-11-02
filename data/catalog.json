@@ -1,0 +1,242 @@
+[
+  {
+    "identifier": "tu-hoc-mot-nhu-cau-thoi-dai-nguyen-hien-le",
+    "title": "Tự Học — Một Nhu Cầu Của Thời Đại",
+    "creator": "Nguyễn Hiến Lê",
+    "langCode": "VIE",
+    "year": 1966,
+    "genre": "selfhelp",
+    "genreLabel": "Kỹ năng & Sống đẹp",
+    "description": "Cẩm nang rèn luyện phương pháp tự học suốt đời giản dị, thực tế và sâu sắc của học giả Nguyễn Hiến Lê."
+  },
+  {
+    "identifier": "toi-tu-hoc",
+    "title": "Tôi Tự Học",
+    "creator": "Thu Giang Nguyễn Duy Cần",
+    "langCode": "VIE",
+    "year": 1959,
+    "genre": "selfhelp",
+    "genreLabel": "Kỹ năng & Sống đẹp",
+    "description": "Tác phẩm kinh điển bàn về mục đích chân chính của sự học, cách đọc sách sâu và rèn luyện óc phán đoán độc lập."
+  },
+  {
+    "identifier": "ebook-cach-nghi-de-thanh-cong-napoleon-hill-ebookvn.net",
+    "title": "Cách Nghĩ Để Thành Công",
+    "creator": "Napoleon Hill",
+    "langCode": "VIE",
+    "year": 1937,
+    "genre": "selfhelp",
+    "genreLabel": "Kỹ năng & Sống đẹp",
+    "description": "Bản tiếng Việt của Think and Grow Rich — mười ba nguyên tắc tư duy và hành động đúc kết từ hơn năm trăm nhân vật kiệt xuất."
+  },
+  {
+    "identifier": "nghe-thuat-noi-truoc-cong-chung-nguyen-hien-le",
+    "title": "Nghệ Thuật Nói Trước Công Chúng",
+    "creator": "Dale Carnegie · Nguyễn Hiến Lê dịch",
+    "langCode": "VIE",
+    "year": 1956,
+    "genre": "selfhelp",
+    "genreLabel": "Kỹ năng & Sống đẹp",
+    "description": "Phương pháp vượt qua nỗi sợ đám đông, trình bày mạch lạc và thuyết phục người nghe của Dale Carnegie qua bản dịch Nguyễn Hiến Lê."
+  },
+  {
+    "identifier": "guong-danh-nhan-nguyen-hien-le",
+    "title": "Gương Danh Nhân",
+    "creator": "Nguyễn Hiến Lê",
+    "langCode": "VIE",
+    "year": 1959,
+    "genre": "selfhelp",
+    "genreLabel": "Kỹ năng & Sống đẹp",
+    "description": "Chân dung nghị lực và nhân cách của những bậc vĩ nhân trong lịch sử nhân loại qua ngòi bút truyền cảm hứng của Nguyễn Hiến Lê."
+  },
+  {
+    "identifier": "biquyetthanhcong_dacnhantam_2016",
+    "title": "Bí Quyết Thành Công: Đắc Nhân Tâm",
+    "creator": "Dale Carnegie · Minh Đức biên dịch",
+    "langCode": "VIE",
+    "year": 1936,
+    "genre": "selfhelp",
+    "genreLabel": "Kỹ năng & Sống đẹp",
+    "description": "Cuốn sách nghệ thuật ứng xử và thu phục lòng người nổi tiếng nhất mọi thời đại của Dale Carnegie, có đầy đủ bản in gốc lẫn văn bản điện tử."
+  },
+  {
+    "identifier": "ebook-hoang-tu-be",
+    "title": "Hoàng Tử Bé",
+    "creator": "Antoine de Saint-Exupéry",
+    "langCode": "VIE",
+    "year": 1943,
+    "genre": "novel",
+    "genreLabel": "Tiểu thuyết",
+    "description": "Câu chuyện trong trẻo và triết lý sâu sắc về cậu hoàng tử nhỏ đến từ tiểu tinh cầu B-612: người ta chỉ nhìn thấy rõ bằng trái tim."
+  },
+  {
+    "identifier": "sachvui.-com-ong-gia-va-bien-ca-ernest-hemingway",
+    "title": "Ông Già Và Biển Cả",
+    "creator": "Ernest Hemingway",
+    "langCode": "VIE",
+    "year": 1952,
+    "genre": "novel",
+    "genreLabel": "Tiểu thuyết",
+    "description": "Cuộc vật lộn đơn độc giữa lão ngư dân Santiago và con cá kiếm khổng lồ ngoài khơi Gulf Stream — biểu tượng bất khuất của con người."
+  },
+  {
+    "identifier": "thamtusherlockholmes_vn2000_t1",
+    "title": "Thám Tử Sherlock Holmes Toàn Tập (Tập 1)",
+    "creator": "Arthur Conan Doyle",
+    "langCode": "VIE",
+    "year": 1892,
+    "genre": "novel",
+    "genreLabel": "Tiểu thuyết",
+    "description": "Tuyển tập những vụ án suy luận sắc bén bậc nhất của thám tử lừng danh phố Baker — Sherlock Holmes và bác sĩ Watson."
+  },
+  {
+    "identifier": "xusodieukytanbao_hnv2010",
+    "title": "Xứ Sở Diệu Kỳ Tàn Bạo Và Chốn Tận Cùng Thế Giới",
+    "creator": "Haruki Murakami · Lê Quang dịch",
+    "langCode": "VIE",
+    "year": 1985,
+    "genre": "novel",
+    "genreLabel": "Tiểu thuyết",
+    "description": "Tiểu thuyết kỳ ảo đặc sắc của Haruki Murakami đan xen hai thế giới song song giữa thực tại Tokyo ngầm và thị trấn bao quanh bởi tường cao."
+  },
+  {
+    "identifier": "cau-truyen-triet-hoc-will-durant",
+    "title": "Câu Chuyện Triết Học",
+    "creator": "Will Durant · Nguyễn Hiến Lê dịch",
+    "langCode": "VIE",
+    "year": 1926,
+    "genre": "history",
+    "genreLabel": "Sử & Khảo cứu",
+    "description": "Cuộc đời và tư tưởng của các đại triết gia phương Tây từ Socrates, Plato, Aristotle đến Voltaire, Kant và Nietzsche."
+  },
+  {
+    "identifier": "daoduckinh-nguyen-hien-le",
+    "title": "Lão Tử — Đạo Đức Kinh",
+    "creator": "Lão Tử · Nguyễn Hiến Lê dịch giải",
+    "langCode": "VIE",
+    "year": 1994,
+    "genre": "history",
+    "genreLabel": "Sử & Khảo cứu",
+    "description": " Tám mươi mốt chương Đạo Đức Kinh của Lão Tử được dịch thuật và bình giải sáng rõ bằng tiếng Việt hiện đại."
+  },
+  {
+    "identifier": "tat-den",
+    "title": "Tắt Đèn",
+    "creator": "Ngô Tất Tố",
+    "langCode": "VIE",
+    "year": 1939,
+    "genre": "novel",
+    "genreLabel": "Tiểu thuyết",
+    "description": "Tiểu thuyết hiện thực xuất sắc khắc họa bi kịch của chị Dậu giữa mùa sưu thuế tại nông thôn Bắc Kỳ trước năm 1945."
+  },
+  {
+    "identifier": "lam-di",
+    "title": "Làm Đĩ",
+    "creator": "Vũ Trọng Phụng",
+    "langCode": "VIE",
+    "year": 1936,
+    "genre": "novel",
+    "genreLabel": "Tiểu thuyết",
+    "description": "Tiểu thuyết tâm lý - xã hội sắc sảo của Vũ Trọng Phụng phân tích bi kịch tha hóa trong xã hội thành thị giao thời."
+  },
+  {
+    "identifier": "Hanoibamsauphophuong",
+    "title": "Hà Nội Băm Sáu Phố Phường",
+    "creator": "Thạch Lam",
+    "langCode": "VIE",
+    "year": 1943,
+    "genre": "short",
+    "genreLabel": "Truyện & Ký",
+    "description": "Tập bút ký tinh tế ghi lại hồn cốt, nếp sống, ẩm thực và vẻ đẹp trầm mặc của ba mươi sáu phố phường Hà Nội xưa."
+  },
+  {
+    "identifier": "namcaotoantap_vh2002_t1",
+    "title": "Nam Cao Toàn Tập (Tập 1)",
+    "creator": "Nam Cao",
+    "langCode": "VIE",
+    "year": 1941,
+    "genre": "short",
+    "genreLabel": "Truyện & Ký",
+    "description": "Gồm Chí Phèo, Lão Hạc, Dì Hảo, Trăng sáng và những truyện ngắn tiêu biểu nhất của Nam Cao giai đoạn trước 1945."
+  },
+  {
+    "identifier": "Tamquoc1",
+    "title": "Tam Quốc Diễn Nghĩa (Tập 1)",
+    "creator": "La Quán Trung",
+    "langCode": "VIE",
+    "year": 1999,
+    "genre": "novel",
+    "genreLabel": "Tiểu thuyết",
+    "description": "Bộ tiểu thuyết lịch sử kinh điển tái hiện thời đại quần hùng tranh bá giữa ba nước Ngụy, Thục, Ngô."
+  },
+  {
+    "identifier": "HongLauMongTauTuyetCan",
+    "title": "Hồng Lâu Mộng",
+    "creator": "Tào Tuyết Cần",
+    "langCode": "VIE",
+    "year": 1791,
+    "genre": "novel",
+    "genreLabel": "Tiểu thuyết",
+    "description": "Tuyệt tác văn học cổ điển phương Đông xoay quanh mối tình Giả Bảo Ngọc — Lâm Đại Ngọc và sự hưng suy của đại gia tộc họ Giả."
+  },
+  {
+    "identifier": "vh.doccocuukiem",
+    "title": "Độc Cô Cửu Kiếm",
+    "creator": "Kim Dung · Kim Dao dịch",
+    "langCode": "VIE",
+    "year": 2006,
+    "genre": "novel",
+    "genreLabel": "Tiểu thuyết",
+    "description": "Tiểu thuyết kiếm hiệp đặc sắc gắn với huyền thoại kiếm ma Độc Cô Cầu Bại trên giang hồ."
+  },
+  {
+    "identifier": "han-mac-tu-tac-pham-chon-loc-han-mac-tu",
+    "title": "Hàn Mặc Tử — Tác Phẩm Chọn Lọc",
+    "creator": "Hàn Mặc Tử",
+    "langCode": "VIE",
+    "year": 1940,
+    "genre": "poetry",
+    "genreLabel": "Thơ ca",
+    "description": "Tuyển tập những vần thơ trăng, mộng và siêu thực rực rỡ nhất của thi sĩ tài hoa Hàn Mặc Tử trong phong trào Thơ Mới."
+  },
+  {
+    "identifier": "vuong-thuy-kieu-tan-da-1952",
+    "title": "Vương Thúy Kiều Chú Giải Tân Truyện",
+    "creator": "Nguyễn Du · Tản Đà chú giải",
+    "langCode": "VIE",
+    "year": 1820,
+    "genre": "poetry",
+    "genreLabel": "Thơ ca",
+    "description": "Kiệt tác Truyện Kiều của đại thi hào Nguyễn Du qua bản khảo đính và chú giải công phu của thi sĩ Tản Đà Nguyễn Khắc Hiếu."
+  },
+  {
+    "identifier": "VietNamSuLuoc-TranTrongKim-dv",
+    "title": "Việt Nam Sử Lược",
+    "creator": "Trần Trọng Kim",
+    "langCode": "VIE",
+    "year": 1920,
+    "genre": "history",
+    "genreLabel": "Sử & Khảo cứu",
+    "description": "Bộ thông sử Việt Nam đầu tiên viết bằng chữ Quốc ngữ, trình bày mạch lạc từ thời Hồng Bàng đến đầu thế kỷ XX."
+  },
+  {
+    "identifier": "OceanofPDF.comTheAlchemist",
+    "title": "The Alchemist",
+    "creator": "Paulo Coelho",
+    "langCode": "ENG",
+    "year": 1988,
+    "genre": "novel",
+    "genreLabel": "Tiểu thuyết",
+    "description": "Paulo Coelho's enchanting modern classic following Andalusian shepherd boy Santiago in search of his Personal Legend."
+  },
+  {
+    "identifier": "prideprejudice00aust",
+    "title": "Pride and Prejudice",
+    "creator": "Jane Austen",
+    "langCode": "ENG",
+    "year": 1813,
+    "genre": "novel",
+    "genreLabel": "Tiểu thuyết",
+    "description": "Classic English romantic novel of manners following Elizabeth Bennet and Mr. Darcy across Regency Hertfordshire and Derbyshire."
+  }
+]

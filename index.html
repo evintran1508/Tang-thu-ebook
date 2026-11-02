@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tàng Thư — Thư Viện Sách Mở</title>
+  <meta name="theme-color" content="#6B3E26" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="./assets/icon-192.svg" />
+  <link rel="apple-touch-icon" href="./assets/icon-192.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./css/app.css" />
+</head>
+
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- 1. Thanh điều hướng đầu trang (Tìm kiếm trái · Tab giữa · Logo phải) -->
+  <header class="topbar">
+    <div class="search-wrap" id="searchBoxWrap">
+      <svg class="search-ico" viewBox="0 0 16 16" aria-hidden="true">
+        <circle cx="7" cy="7" r="4.8" />
+        <path d="M10.6 10.6 L14.2 14.2" />
+      </svg>
+      <input type="text" inputmode="search" role="searchbox" class="search-input" id="searchInput"
+        placeholder="Tìm tên sách, tác giả…" aria-label="Tìm kiếm sách" autocomplete="off" spellcheck="false" />
+      <button type="button" class="search-clear" id="searchClearBtn" aria-label="Xoá tìm kiếm" hidden>×</button>
+    </div>
+
+    <nav class="tabs" aria-label="Thể loại sách">
+      <div class="tab-ind" id="tabInd"></div>
+      <button type="button" class="tab-btn active" data-genre="all">Khám phá</button>
+      <button type="button" class="tab-btn" data-genre="saved">Đã lưu<span id="savedCount"></span></button>
+      <button type="button" class="tab-btn" data-genre="selfhelp">Kỹ năng &amp; Sống đẹp</button>
+      <button type="button" class="tab-btn" data-genre="novel">Tiểu thuyết</button>
+      <button type="button" class="tab-btn" data-genre="short">Truyện &amp; Ký</button>
+      <button type="button" class="tab-btn" data-genre="poetry">Thơ ca</button>
+      <button type="button" class="tab-btn" data-genre="history">Sử &amp; Khảo cứu</button>
+    </nav>
+
+    <div class="topbar-right">
+      <div class="logo" aria-label="Tàng Thư — Thư Viện Mở">
+        <span class="logo-vi">TÀNG THƯ</span>
+        <span class="logo-en">THƯ VIỆN MỞ</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Khung bố cục chính 2 cột -->
+  <main class="app-shell">
+    <!-- Cột trái: Sách nổi bật (chỉ Thịnh hành trong tuần) + Đang đọc dở -->
+    <aside class="sidebar" aria-label="Sách thịnh hành tuần và tiến độ đọc">
+      <section class="side-panel">
+        <div class="side-head">
+          <div class="side-head-title">
+            <svg class="side-ico" viewBox="0 0 18 16" aria-hidden="true">
+              <path
+                d="M2 2.5 C4.8 1.6 7.2 2.2 9 3.6 C10.8 2.2 13.2 1.6 16 2.5 V13.5 C13.2 12.6 10.8 13.2 9 14.6 C7.2 13.2 4.8 12.6 2 13.5 Z" />
+              <path d="M9 3.6 V14.6" />
+            </svg>
+            <h2>Sách nổi bật</h2>
+          </div>
+          <span class="side-sub">Thịnh hành tuần</span>
+        </div>
+        <div class="side-list" id="sideNewList"></div>
+      </section>
+
+      <section class="side-panel">
+        <div class="side-head">
+          <h2>Đang đọc dở</h2>
+          <span class="side-sub" id="sideProgressMeta">Chưa có</span>
+        </div>
+        <div class="side-list" id="sideProgressList"></div>
+      </section>
+    </aside>
+
+    <!-- Cột phải: Thẻ sách tiêu điểm + Khung kho sách (Kệ 3D / Dạng lưới) -->
+    <div class="main-pane">
+      <!-- 2a. Thẻ sách tiêu điểm (Hero Banner) -->
+      <section class="hero-card" id="heroCard" aria-label="Sách tiêu điểm">
+        <div class="hero-copy">
+          <div class="hero-tags" id="heroTags"></div>
+          <h1 class="hero-title" id="heroTitle">Đang tải kho sách…</h1>
+          <div class="hero-author" id="heroAuthor">Tàng Thư · Thư Viện Mở</div>
+          <p class="hero-desc" id="heroDesc">Tuyển tập sách in nguyên bản chất lượng cao, phục vụ bạn đọc yêu sách cổ và tri thức xưa.</p>
+          <div class="hero-actions">
+            <button type="button" class="hero-btn-read" id="heroReadBtn" data-btn>
+              <svg viewBox="0 0 18 16" aria-hidden="true">
+                <path
+                  d="M2 2.5 C4.8 1.6 7.2 2.2 9 3.6 C10.8 2.2 13.2 1.6 16 2.5 V13.5 C13.2 12.6 10.8 13.2 9 14.6 C7.2 13.2 4.8 12.6 2 13.5 Z" />
+                <path d="M9 3.6 V14.6" />
+              </svg>
+              <span id="heroReadLbl">Đọc ngay</span>
+            </button>
+            <button type="button" class="hero-btn-save" id="heroSaveBtn" data-btn>
+              <svg viewBox="0 0 14 18" aria-hidden="true">
+                <path d="M2 1.5 H12 V16.5 L7 12.8 L2 16.5 Z" />
+              </svg>
+              <span id="heroSaveLbl">Lưu sách</span>
+            </button>
+            <button type="button" class="hero-btn-more" id="heroDetailBtn" aria-label="Xem chi tiết sách" data-btn>
+              Chi tiết
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-stage">
+          <div class="hero-book-wrap">
+            <button type="button" class="hero-cover" id="heroCover" aria-label="Mở chi tiết sách tiêu điểm"></button>
+          </div>
+          <div class="hero-nav">
+            <button type="button" class="hero-nav-btn" id="heroPrevBtn" aria-label="Sách tiêu điểm trước" data-btn>
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M10 3.5 L5.5 8 L10 12.5" />
+              </svg>
+            </button>
+            <button type="button" class="hero-nav-btn" id="heroNextBtn" aria-label="Sách tiêu điểm tiếp theo" data-btn>
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M6 3.5 L10.5 8 L6 12.5" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Thanh Tiếp Tục Đọc nổi bật trên trang chủ -->
+      <aside class="resume-bar" id="resumeBar" hidden aria-label="Tiếp tục đọc sách">
+        <div class="resume-left">
+          <div class="resume-cover" id="resumeCover"></div>
+          <div class="resume-text">
+            <div class="resume-meta-row">
+              <span class="resume-badge">ĐANG ĐỌC DỞ</span>
+              <span class="resume-sub" id="resumeSub"></span>
+            </div>
+            <h3 class="resume-title" id="resumeTitle"></h3>
+          </div>
+        </div>
+        <button type="button" class="resume-btn" id="resumeBtn">
+          <span>Tiếp tục đọc</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M6 3.5 L10.5 8 L6 12.5" />
+          </svg>
+        </button>
+      </aside>
+
+      <!-- 2b. Khu vực Kho sách (Xếp hạng, Ngôn ngữ, Bộ lọc và Kệ 3D / Dạng lưới chỉ áp dụng cho danh sách dưới đây) -->
+      <section class="catalog-pane" aria-labelledby="catalogHeading">
+        <div class="catalog-head">
+          <div class="catalog-title-row">
+            <h2 class="catalog-heading" id="catalogHeading">Kho sách đề xuất</h2>
+            <span class="catalog-count" id="archiveTotal">Đang tải kho sách…</span>
+          </div>
+
+          <div class="catalog-controls" role="group" aria-label="Sắp xếp, lọc và chế độ hiển thị kho sách">
+            <select class="catalog-pill" id="sortSelect" aria-label="Sắp xếp danh sách sách">
+              <option value="downloads desc">Phổ biến nhất</option>
+              <option value="week desc">Thịnh hành tuần</option>
+              <option value="month desc">Phổ biến tháng</option>
+              <option value="year desc">Mới xuất bản</option>
+              <option value="year asc">Cổ điển</option>
+            </select>
+
+            <select class="catalog-pill lang-select" id="langSelect" aria-label="Ngôn ngữ danh sách sách">
+              <option value="all">Mọi ngôn ngữ</option>
+              <option value="vie">Tiếng Việt</option>
+              <option value="eng">Tiếng Anh</option>
+              <option value="fra">Tiếng Pháp</option>
+              <option value="zho">Tiếng Trung</option>
+              <option value="jpn">Tiếng Nhật</option>
+              <option value="deu">Tiếng Đức</option>
+              <option value="spa">Tiếng Tây Ban Nha</option>
+              <option value="rus">Tiếng Nga</option>
+            </select>
+
+            <div class="filter-anchor" id="filterAnchor">
+              <button type="button" class="catalog-pill" id="filterToggleBtn">Bộ lọc</button>
+              <div class="filter-drawer" id="filterDrawer" role="region" aria-label="Bộ lọc nâng cao danh sách sách">
+                <div class="filter-group">
+                  <span class="lbl">Năm xuất bản:</span>
+                  <button type="button" class="lbl box active" data-era="all">Tất cả</button>
+                  <button type="button" class="lbl box" data-era="pre1945">≤ 1945</button>
+                  <button type="button" class="lbl box" data-era="1946-1975">1946–1975</button>
+                  <button type="button" class="lbl box" data-era="1976-2000">1976–2000</button>
+                  <button type="button" class="lbl box" data-era="post2000">Sau 2000</button>
+                </div>
+                <div class="filter-group">
+                  <label class="lbl" for="authorSelect">Tác giả:</label>
+                  <select class="filter-select" id="authorSelect">
+                    <option value="all">Tất cả tác giả</option>
+                  </select>
+                </div>
+                <button type="button" class="lbl box" id="filterResetBtn">Xoá lọc</button>
+              </div>
+            </div>
+
+            <div class="view-switch" role="group" aria-label="Chế độ hiển thị kho sách">
+              <button type="button" class="view-btn active" id="viewShelfBtn">Kệ sách</button>
+              <button type="button" class="view-btn" id="viewGridBtn">Dạng lưới</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="catalog-body" id="catalogBody">
+          <!-- Chế độ 1: Kệ sách 3D kéo từng cuốn -->
+          <div class="shelf" id="shelf" role="region" aria-label="Kệ sách 3D">
+            <div class="stage" id="stage"></div>
+
+            <button type="button" class="arrow-btn arrow-prev" id="prevBtn" aria-label="Sách trước" data-btn>
+              <svg viewBox="0 0 18 10" aria-hidden="true">
+                <path d="M5 1 L1 5 L5 9 M1 5 L17 5" />
+              </svg>
+            </button>
+            <button type="button" class="arrow-btn arrow-next" id="nextBtn" aria-label="Sách tiếp theo" data-btn>
+              <svg viewBox="0 0 18 10" aria-hidden="true">
+                <path d="M13 1 L17 5 L13 9 M17 5 L1 5" />
+              </svg>
+            </button>
+
+            <div class="caption" aria-live="polite">
+              <div class="cap-mask cap-title" id="capTitle"></div>
+              <div class="cap-mask cap-sub lbl" id="capSub"></div>
+              <div class="cap-mask cap-year" id="capYear"></div>
+            </div>
+          </div>
+
+          <!-- Chế độ 2: Danh sách dạng lưới truyền thống (cùng nằm trong .catalog-body) -->
+          <div class="grid-view" id="gridView" role="region" aria-label="Danh sách sách dạng lưới" hidden>
+            <div class="grid-list" id="gridList"></div>
+            <div class="grid-more-wrap" id="gridMoreWrap" hidden>
+              <button type="button" class="lbl box" id="gridMoreBtn" data-btn>Tải thêm sách</button>
+            </div>
+          </div>
+
+          <!-- Trạng thái rỗng / lỗi / đang tải bên trong khung kho sách -->
+          <div class="shelf-status" id="shelfStatus" hidden>
+            <p class="shelf-status-msg" id="shelfStatusMsg"></p>
+            <button type="button" class="lbl box" id="shelfStatusBtn" data-btn>Xoá bộ lọc</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- 3. Trang chi tiết sách -->
+  <div class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="detTitle">
+    <button type="button" class="lbl box det-close" id="detCloseBtn" data-btn>ĐÓNG</button>
+    <div class="det-topbar" aria-hidden="true">
+      <div class="logo">
+        <span class="logo-vi">TÀNG THƯ</span>
+        <span class="logo-en">THƯ VIỆN MỞ</span>
+      </div>
+    </div>
+
+    <div class="det-left">
+      <div class="det-mask">
+        <div class="det-line det-sub-row">
+          <span class="lbl det-sub" id="detSub"></span>
+          <span class="lbl box" id="detBadge">BẢN IN GỐC</span>
+        </div>
+      </div>
+      <div class="det-mask">
+        <h2 class="det-line det-title" id="detTitle"></h2>
+      </div>
+      <div class="det-mask">
+        <span class="det-line lbl det-meta" id="detMeta"></span>
+      </div>
+      <div class="det-mask">
+        <p class="det-line det-syn" id="detSyn"></p>
+      </div>
+      <div class="det-mask">
+        <p class="det-line det-credit">Tàng Thư Các · Bản in nguyên bản</p>
+      </div>
+      <div class="det-mask">
+        <div class="det-line det-actions">
+          <button type="button" class="lbl det-btn-primary" id="detReadBtn" data-btn>ĐỌC SÁCH</button>
+          <button type="button" class="lbl det-btn-secondary" id="detSaveBtn" data-btn>LƯU SÁCH</button>
+          <a href="https://archive.org" target="_blank" rel="noopener noreferrer" class="lbl box" id="detExtLink"
+            data-btn>TRANG GỐC ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="det-right">
+      <svg class="det-poster" viewBox="0 0 600 900" aria-hidden="true">
+        <defs>
+          <filter id="inkFlt" x="-30%" y="-30%" width="160%" height="160%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="3" seed="7" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="120" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+          <clipPath id="posterClip">
+            <rect x="0" y="0" width="600" height="900" />
+          </clipPath>
+          <mask id="inkMask" maskUnits="userSpaceOnUse" x="-200" y="-200" width="1000" height="1300">
+            <rect x="-200" y="-200" width="1000" height="1300" fill="black" />
+            <g filter="url(#inkFlt)" fill="white" id="inkBlobs">
+              <circle cx="190" cy="330" r="0" />
+              <circle cx="430" cy="600" r="0" />
+              <circle cx="310" cy="120" r="0" />
+              <circle cx="120" cy="760" r="0" />
+              <circle cx="500" cy="250" r="0" />
+              <circle cx="330" cy="860" r="0" />
+              <circle cx="290" cy="470" r="0" />
+            </g>
+          </mask>
+        </defs>
+        <g clip-path="url(#posterClip)" mask="url(#inkMask)">
+          <rect x="0" y="0" width="600" height="900" fill="#EAE6DC" />
+          <image id="detImg" x="0" y="0" width="600" height="900" preserveAspectRatio="xMidYMid slice" />
+          <rect x="0.75" y="0.75" width="598.5" height="898.5" fill="none" stroke="#141414" stroke-width="1.5" />
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 4. Màn hình đọc sách bản in -->
+  <div class="reader" id="reader" role="dialog" aria-modal="true" aria-label="Màn hình đọc sách">
+    <header class="rdr-header">
+      <div class="rdr-header-left">
+        <button type="button" class="rdr-icon-btn" id="rdrCloseBtn" title="Quay lại thư viện (Esc)"
+          aria-label="Quay lại thư viện">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M12.5 4.5 L7 10 L12.5 15.5 M7.4 10 H16.5" />
+          </svg>
+        </button>
+        <span class="rdr-book-title" id="rdrTitle"></span>
+      </div>
+
+      <div class="rdr-header-right" role="toolbar" aria-label="Công cụ đọc sách">
+        <button type="button" class="rdr-icon-btn" id="rdrView1Btn" title="Xem 1 trang (Phím 1)"
+          aria-label="Xem 1 trang">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <rect x="5" y="2.8" width="10" height="14.4" rx="1.4" />
+            <path d="M7.5 6.8 H12.5 M7.5 10 H12.5 M7.5 13.2 H11" />
+          </svg>
+        </button>
+        <button type="button" class="rdr-icon-btn active" id="rdrView2Btn" title="Xem 2 trang mở đôi (Phím 2)"
+          aria-label="Xem 2 trang">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <rect x="2.2" y="3.2" width="15.6" height="13.6" rx="1.4" />
+            <path d="M10 3.2 V16.8 M4.6 7 H7.8 M4.6 10 H7.8 M12.2 7 H15.4 M12.2 10 H15.4" />
+          </svg>
+        </button>
+        <button type="button" class="rdr-icon-btn" id="rdrViewThumbBtn" title="Xem nhiều trang dạng lưới (Phím 3)"
+          aria-label="Xem nhiều trang">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <rect x="3" y="3" width="5.6" height="5.6" rx="1" />
+            <rect x="11.4" y="3" width="5.6" height="5.6" rx="1" />
+            <rect x="3" y="11.4" width="5.6" height="5.6" rx="1" />
+            <rect x="11.4" y="11.4" width="5.6" height="5.6" rx="1" />
+          </svg>
+        </button>
+
+        <span class="rdr-sep" aria-hidden="true"></span>
+
+        <button type="button" class="rdr-icon-btn" id="rdrTtsBtn" title="Sách đọc — Đọc thành tiếng"
+          aria-label="Sách đọc thành tiếng">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M4 11.5 V9.5 A6 6 0 0 1 16 9.5 V11.5" />
+            <rect x="2.6" y="10.8" width="3.2" height="5.4" rx="1.3" />
+            <rect x="14.2" y="10.8" width="3.2" height="5.4" rx="1.3" />
+          </svg>
+        </button>
+
+        <span class="rdr-sep" aria-hidden="true"></span>
+
+        <button type="button" class="rdr-icon-btn" id="rdrTextAltBtn" title="Chế độ đọc chữ (OCR)"
+          aria-label="Chế độ đọc chữ">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M4.5 5.5 H15.5 M10 5.5 V15.5 M7.5 15.5 H12.5" />
+          </svg>
+        </button>
+
+        <button type="button" class="rdr-icon-btn" id="rdrSearchBtn" title="Tìm trong sách"
+          aria-label="Tìm trong sách">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="4.8" />
+            <path d="M12 12 L16 16" />
+          </svg>
+        </button>
+
+        <button type="button" class="rdr-icon-btn" id="rdrBookmarkBtn" title="Đánh dấu trang này"
+          aria-label="Đánh dấu trang này">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M5.5 3.5 H14.5 V16.5 L10 13 L5.5 16.5 Z" />
+          </svg>
+        </button>
+
+        <button type="button" class="rdr-icon-btn" id="rdrNoteBtn" title="Ghi chú trang này"
+          aria-label="Ghi chú trang này">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M4 16 L4.8 12.8 L13.6 4 C14.1 3.5 14.9 3.5 15.4 4 L16 4.6 C16.5 5.1 16.5 5.9 16 6.4 L7.2 15.2 Z" />
+          </svg>
+        </button>
+
+        <span class="rdr-sep" aria-hidden="true"></span>
+
+        <button type="button" class="rdr-icon-btn" id="rdrZoomOutBtn" title="Thu nhỏ (−)"
+          aria-label="Thu nhỏ trang sách">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <circle cx="8.8" cy="8.8" r="5.4" />
+            <path d="M6.4 8.8 H11.2 M12.8 12.8 L16.8 16.8" />
+          </svg>
+        </button>
+        <button type="button" class="rdr-zoom-lbl" id="rdrZoomResetBtn" title="Đặt lại thu phóng 100% (Phím 0)"
+          aria-label="Đặt lại thu phóng 100 phần trăm">100%</button>
+        <button type="button" class="rdr-icon-btn" id="rdrZoomInBtn" title="Phóng to (+)"
+          aria-label="Phóng to trang sách">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <circle cx="8.8" cy="8.8" r="5.4" />
+            <path d="M8.8 6.4 V11.2 M6.4 8.8 H11.2 M12.8 12.8 L16.8 16.8" />
+          </svg>
+        </button>
+
+        <span class="rdr-sep" aria-hidden="true"></span>
+
+        <button type="button" class="rdr-icon-btn" id="rdrExpandBtn" title="Toàn màn hình (F)"
+          aria-label="Bật hoặc tắt chế độ toàn màn hình">
+          <svg class="ico-expand" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M3.2 7.5 V3.2 H7.5 M12.5 3.2 H16.8 V7.5 M16.8 12.5 V16.8 H12.5 M7.5 16.8 H3.2 V12.5" />
+          </svg>
+          <svg class="ico-collapse" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M7.5 3.2 V7.5 H3.2 M12.5 3.2 V7.5 H16.8 M16.8 12.5 H12.5 V16.8 M3.2 12.5 H7.5 V16.8" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="rdr-scan-wrap" id="rdrScanWrap" hidden>
+      <button type="button" class="rdr-side-nav rdr-side-prev" id="rdrSidePrevBtn" title="Trang trước (←)"
+        aria-label="Trang trước">
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M12.5 4.5 L7 10 L12.5 15.5" />
+        </svg>
+      </button>
+
+      <div class="rdr-book-stage" id="rdrBookStage">
+        <div class="rdr-spread" id="rdrSpread">
+          <img class="rdr-leaf rdr-leaf-left" id="rdrLeafLeft" alt="Trang sách trái" decoding="async"
+            draggable="false" />
+          <img class="rdr-leaf rdr-leaf-right" id="rdrLeafRight" alt="Trang sách phải" decoding="async"
+            draggable="false" hidden />
+        </div>
+      </div>
+
+      <button type="button" class="rdr-side-nav rdr-side-next" id="rdrSideNextBtn" title="Trang sau (→)"
+        aria-label="Trang sau">
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M7.5 4.5 L13 10 L7.5 15.5" />
+        </svg>
+      </button>
+
+      <div class="rdr-thumb-grid" id="rdrThumbGrid" role="region" aria-label="Danh sách trang thu nhỏ" hidden></div>
+
+      <iframe class="rdr-scan-iframe" id="rdrScanIframe" title="Trình xem sách bản in" src="about:blank"
+        hidden allowfullscreen></iframe>
+
+      <!-- Bảng tìm kiếm trong sách -->
+      <div class="rdr-search-box" id="rdrSearchBox" hidden>
+        <div class="rdr-search-bar">
+          <input type="text" class="rdr-search-inp" id="rdrSearchInp" placeholder="Tìm từ khóa trong nội dung sách…" />
+          <button type="button" class="lbl box" id="rdrSearchGoBtn">Tìm</button>
+          <button type="button" class="rdr-panel-close" id="rdrSearchCloseBtn" aria-label="Đóng tìm kiếm">×</button>
+        </div>
+        <div class="rdr-search-results" id="rdrSearchResults"></div>
+      </div>
+
+      <!-- Hộp thoại ghi chú trang -->
+      <div class="rdr-note-pop" id="rdrNotePop" hidden>
+        <div class="rdr-note-pop-head">
+          <span id="rdrNotePopTitle" class="lbl">GHI CHÚ TRANG</span>
+          <button type="button" class="rdr-panel-close" id="rdrNotePopClose" aria-label="Đóng ghi chú">×</button>
+        </div>
+        <textarea class="rdr-note-textarea" id="rdrNoteText" placeholder="Nhập ghi chú cho trang sách này…"></textarea>
+        <button type="button" class="lbl box" id="rdrNoteSaveBtn">Lưu ghi chú</button>
+      </div>
+
+      <!-- Bảng đọc chữ (Secondary OCR Text Reader) -->
+      <div class="rdr-text-viewer" id="rdrTextViewer" hidden>
+        <div class="rdr-text-toolbar">
+          <span class="lbl rdr-text-title">VĂN BẢN TRANG SÁCH (OCR)</span>
+          <div class="rdr-text-controls">
+            <button type="button" class="lbl box" id="rdrTextFontDown" title="Giảm cỡ chữ">A−</button>
+            <button type="button" class="lbl box" id="rdrTextFontUp" title="Tăng cỡ chữ">A+</button>
+            <button type="button" class="lbl box" id="rdrTextThemeBtn" title="Chuyển chế độ sáng/tối">🌙</button>
+            <button type="button" class="rdr-panel-close" id="rdrTextCloseBtn" title="Đóng đọc chữ">✕</button>
+          </div>
+        </div>
+        <div class="rdr-text-body" id="rdrTextBody"></div>
+      </div>
+    </div>
+
+    <div class="rdr-state-box" id="rdrStateBox">
+      <p id="rdrStateMsg">Đang mở sách…</p>
+    </div>
+
+    <footer class="rdr-footer">
+      <button type="button" class="rdr-icon-btn rdr-nav-btn" id="rdrPrevBtn" title="Trang trước (←)"
+        aria-label="Trang trước">
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M12.5 4.5 L7 10 L12.5 15.5" />
+        </svg>
+      </button>
+
+      <div class="rdr-progress-bar-wrap">
+        <span class="lbl" id="rdrPageInfo">TRANG 1 / 1</span>
+        <input type="range" class="rdr-range" id="rdrPageRange" min="1" max="1" value="1"
+          aria-label="Thanh trượt chuyển trang" />
+      </div>
+
+      <button type="button" class="rdr-icon-btn rdr-nav-btn" id="rdrNextBtn" title="Trang sau (→)"
+        aria-label="Trang sau">
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M7.5 4.5 L13 10 L7.5 15.5" />
+        </svg>
+      </button>
+    </footer>
+  </div>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+
+</html>
