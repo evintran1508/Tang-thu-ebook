@@ -369,6 +369,19 @@ function syncHero(book) {
   syncSidebarActiveHighlight();
 }
 
+function formatCompactCount(num) {
+  const n = Number(num) || 0;
+  if (n >= 1_000_000) {
+    const v = (n / 1_000_000).toFixed(1).replace(/\.0$/, '');
+    return `${v}M`;
+  }
+  if (n >= 1_000) {
+    const v = (n / 1_000).toFixed(1).replace(/\.0$/, '');
+    return `${v}K`;
+  }
+  return n.toLocaleString('vi-VN');
+}
+
 function renderSidebarTrending(items) {
   const source = items && items.length > 0 ? items : seedBooks;
   const topItems = source.slice(0, 8);
@@ -390,15 +403,18 @@ function renderSidebarTrending(items) {
     const title = document.createElement('div');
     title.className = 'side-title';
     title.textContent = book.title;
+    title.title = book.title;
 
     const author = document.createElement('div');
     author.className = 'side-author';
     const weekStat = book.week > 0
-      ? `${book.week.toLocaleString('vi-VN')} lượt/tuần`
+      ? `${formatCompactCount(book.week)}/tuần`
       : book.downloads > 0
-        ? `${book.downloads.toLocaleString('vi-VN')} lượt đọc`
+        ? `${formatCompactCount(book.downloads)} lượt`
         : '';
-    author.textContent = [book.creator || 'Khuyết danh', weekStat].filter(Boolean).join(' · ');
+    const authorLine = [book.creator || 'Khuyết danh', weekStat].filter(Boolean).join(' · ');
+    author.textContent = authorLine;
+    author.title = authorLine;
 
     meta.appendChild(title);
     meta.appendChild(author);
@@ -471,10 +487,16 @@ function renderSidebarProgress() {
   sideProgressListEl.innerHTML = '';
 
   if (recent.length === 0) {
-    const empty = document.createElement('p');
-    empty.className = 'prog-empty';
-    empty.textContent = 'Chưa có sách đang đọc dở.';
-    sideProgressListEl.appendChild(empty);
+    const emptyBox = document.createElement('div');
+    emptyBox.className = 'prog-empty-box';
+    emptyBox.innerHTML = `
+      <svg class="prog-empty-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </svg>
+      <span class="prog-empty-text">Chưa có sách đang đọc dở</span>
+    `;
+    sideProgressListEl.appendChild(emptyBox);
     syncResumeBar();
     return;
   }
@@ -502,6 +524,7 @@ function renderSidebarProgress() {
     const title = document.createElement('span');
     title.className = 'side-title';
     title.textContent = book.title;
+    title.title = book.title;
 
     const pctEl = document.createElement('span');
     pctEl.className = 'prog-pct';
@@ -512,9 +535,11 @@ function renderSidebarProgress() {
 
     const detailLine = document.createElement('span');
     detailLine.className = 'side-author';
-    detailLine.textContent = [book.posLabel || book.creator, formatReadDuration(book.readSeconds)]
+    const detailText = [book.posLabel || book.creator, formatReadDuration(book.readSeconds)]
       .filter(Boolean)
       .join(' · ');
+    detailLine.textContent = detailText;
+    detailLine.title = detailText;
 
     const track = document.createElement('div');
     track.className = 'prog-track';
@@ -586,10 +611,12 @@ function createGridCardEl(book) {
   const titleEl = document.createElement('h3');
   titleEl.className = 'grid-title';
   titleEl.textContent = book.title;
+  titleEl.title = book.title;
 
   const authorEl = document.createElement('div');
   authorEl.className = 'grid-author';
   authorEl.textContent = book.creator || 'Khuyết danh';
+  authorEl.title = book.creator || 'Khuyết danh';
 
   const metaEl = document.createElement('div');
   metaEl.className = 'grid-meta';

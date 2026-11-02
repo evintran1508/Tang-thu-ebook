@@ -91,6 +91,28 @@ export function renderSpine(el, book, saved) {
   `;
 }
 
+// Bộ nhớ đệm trạng thái ảnh bìa: bookIdentifier -> 'ok' | 'failed'
+const coverStatusCache = new Map();
+
+let coverObserver = null;
+function getCoverObserver() {
+  if (!coverObserver && typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+    coverObserver = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          coverObserver.unobserve(el);
+          if (typeof el.__triggerCoverLoad === 'function') {
+            el.__triggerCoverLoad();
+            delete el.__triggerCoverLoad;
+          }
+        }
+      }
+    }, { rootMargin: '250px 0px' });
+  }
+  return coverObserver;
+}
+
 export function renderCover(el, book, { eager = false, compact = false, size = 'w250' } = {}) {
   const { palette, motif } = getBookVisual(book);
   el.style.setProperty('--cv-bg', palette.bg);
@@ -127,38 +149,65 @@ export function renderCover(el, book, { eager = false, compact = false, size = '
     `;
 
   const img = el.querySelector('.cv-full-img');
-  let triedFallback = false;
+  if (!img) return;
 
-  img.addEventListener('load', () => {
-    const w = img.naturalWidth;
-    const h = img.naturalHeight;
-    if (w < 85 || h < 95) {
+  // Nếu cuốn sách này đã xác định không có ảnh bìa trên mạng -> dùng luôn bìa vẽ mặc định
+  if (coverStatusCache.get(book.identifier) === 'failed') {
+    img.remove();
+    return;
+  }
+
+  function startLoad() {
+    let triedFallback = false;
+
+    img.addEventListener('load', () => {
+      const w = img.naturalWidth;
+      const h = img.naturalHeight;
+      if (w < 85 || h < 95) {
+        if (!triedFallback) {
+          triedFallback = true;
+          img.src = fallbackUrl;
+        } else {
+          coverStatusCache.set(book.identifier, 'failed');
+          img.remove();
+        }
+        return;
+      }
+      coverStatusCache.set(book.identifier, 'ok');
+      const ratio = w / h;
+      // Portrait book covers fill cleanly; wide/square/skinny covers frame with object-fit: contain so nothing stretches
+      if (ratio < 0.50 || ratio > 0.84 || w < 140) {
+        img.classList.add('is-contain');
+      }
+      img.classList.add('is-ready');
+    });
+
+    img.addEventListener('error', () => {
       if (!triedFallback) {
         triedFallback = true;
         img.src = fallbackUrl;
       } else {
+        coverStatusCache.set(book.identifier, 'failed');
         img.remove();
       }
-      return;
-    }
-    const ratio = w / h;
-    // Portrait book covers fill cleanly; wide/square/skinny covers frame with object-fit: contain so nothing stretches
-    if (ratio < 0.50 || ratio > 0.84 || w < 140) {
-      img.classList.add('is-contain');
-    }
-    img.classList.add('is-ready');
-  });
+    });
 
-  img.addEventListener('error', () => {
-    if (!triedFallback) {
-      triedFallback = true;
-      img.src = fallbackUrl;
+    img.src = targetCoverUrl;
+  }
+
+  // Tải ngay nếu là banner tiêu điểm Hero, hộp thoại chi tiết hoặc thanh đang đọc dở
+  // Với các thẻ sách trong danh sách cuộn: chỉ kích hoạt khi lọt vào vùng nhìn thấy (IntersectionObserver)
+  if (eager) {
+    startLoad();
+  } else {
+    const observer = getCoverObserver();
+    if (observer) {
+      el.__triggerCoverLoad = startLoad;
+      observer.observe(el);
     } else {
-      img.remove();
+      startLoad();
     }
-  });
-
-  img.src = targetCoverUrl;
+  }
 }
 
 export function buildPosterDataUrl(book) {

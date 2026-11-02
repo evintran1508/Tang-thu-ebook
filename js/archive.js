@@ -6,7 +6,7 @@ const ocrCache = new Map();
 const searchResultCache = new Map();
 
 const JUNK_ID_RE = /^(?:haodbvn-|arc_googledrive|nhanxetmoinhat|bong-88|arxiv-|pubmed-|DTIC_|vnthuquan$)/i;
-const JUNK_TITLE_RE = /\b(?:bong88|bong\s*88|nha\s*cai|casino|data-phim)\b/i;
+const JUNK_TITLE_RE = /\b(?:bong88|bong\s*88|nha\s*cai|casino|data-phim|hentai|uncensored|bimbo|nsfw|xxx|porn)\b/i;
 
 export function stripMarks(str) {
   return String(str || '')
@@ -98,6 +98,9 @@ function normalizeDoc(doc) {
 
   const creator = cleanCreator(doc.creator);
   if (JUNK_TITLE_RE.test(creator)) return null;
+
+  const subj = Array.isArray(doc.subject) ? doc.subject.join(' ') : String(doc.subject || '');
+  if (JUNK_TITLE_RE.test(subj)) return null;
 
   const { genre, genreLabel } = inferGenre(doc);
   const langCode = normalizeLangCode(doc.language);
@@ -238,10 +241,15 @@ export async function fetchArchiveBooksPage({
   if (trimmedQ) {
     const safeQ = trimmedQ.replace(/"/g, '');
     const safeFold = foldedQ.replace(/"/g, '');
+    const words = safeQ.split(/\s+/).filter(Boolean);
+    const titleAndClause = words.length > 1 ? `(${words.map((w) => `title:${w}`).join(' AND ')})` : `title:(${safeQ})`;
+    const foldWords = safeFold.split(/\s+/).filter(Boolean);
+    const foldTitleAnd = foldWords.length > 1 ? `(${foldWords.map((w) => `title:${w}`).join(' AND ')})` : `title:(${safeFold})`;
+
     if (safeFold && safeFold !== safeQ.toLowerCase()) {
-      clauses.push(`("${safeQ}" OR "${safeFold}" OR title:(${safeQ}) OR title:(${safeFold}) OR creator:(${safeQ}))`);
+      clauses.push(`(title:"${safeQ}" OR ${titleAndClause} OR title:"${safeFold}" OR ${foldTitleAnd} OR creator:"${safeQ}" OR creator:(${safeQ}) OR subject:"${safeQ}")`);
     } else {
-      clauses.push(`("${safeQ}" OR title:(${safeQ}) OR creator:(${safeQ}))`);
+      clauses.push(`(title:"${safeQ}" OR ${titleAndClause} OR creator:"${safeQ}" OR creator:(${safeQ}) OR subject:"${safeQ}")`);
     }
   }
 

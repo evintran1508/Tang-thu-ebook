@@ -1,6 +1,5 @@
-const SHELL_CACHE = 'kesach-shell-v2';
-const PAGES_CACHE = 'kesach-scan-pages-v1';
-const ASSETS_CACHE = 'kesach-assets-v1';
+const SHELL_CACHE = 'kesach-shell-v3';
+const PAGES_CACHE = 'kesach-scan-pages-v2';
 
 const PRECACHE_URLS = [
   '/',
@@ -30,7 +29,7 @@ self.addEventListener('activate', (e) => {
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((k) => {
-          if (![SHELL_CACHE, PAGES_CACHE, ASSETS_CACHE].includes(k)) {
+          if (![SHELL_CACHE, PAGES_CACHE].includes(k)) {
             return caches.delete(k);
           }
         })
@@ -50,65 +49,25 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
-  // 2. Scan Page Images from Internet Archive (.../page/n{leaf}_w{width}.jpg) -> Cache-First
-  if (
-    url.hostname.includes('archive.org') &&
-    (url.pathname.includes('/page/n') || url.pathname.includes('/page/cover_') || url.pathname.includes('/services/img/'))
-  ) {
-    e.respondWith(
-      caches.open(PAGES_CACHE).then(async (cache) => {
-        const cached = await cache.match(req);
-        if (cached) return cached;
-        try {
-          const netRes = await fetch(req, { mode: 'cors' });
-          if (netRes && (netRes.status === 200 || netRes.type === 'opaque')) {
+  // 2. Bỏ qua mọi request gọi ra ngoài domain nội bộ (cross-origin)
+  // để trình duyệt xử lý tự nhiên qua HTTP cache, tránh triệt để lỗi CORS và crash Service Worker
+  if (url.origin !== self.location.origin) {
+    return;
+  }
+
+  // 3. Same-origin App Shell -> Stale-while-revalidate
+  e.respondWith(
+    caches.open(SHELL_CACHE).then(async (cache) => {
+      const cached = await cache.match(req);
+      const fetchPromise = fetch(req)
+        .then((netRes) => {
+          if (netRes && netRes.status === 200) {
             cache.put(req, netRes.clone()).catch(() => {});
           }
           return netRes;
-        } catch (err) {
-          if (cached) return cached;
-          throw err;
-        }
-      })
-    );
-    return;
-  }
-
-  // 3. Internet Archive Metadata / OCR text -> Stale-while-revalidate
-  if (url.hostname.includes('archive.org')) {
-    e.respondWith(
-      caches.open(ASSETS_CACHE).then(async (cache) => {
-        const cached = await cache.match(req);
-        const fetchPromise = fetch(req, { mode: 'cors' })
-          .then((netRes) => {
-            if (netRes && netRes.status === 200) {
-              cache.put(req, netRes.clone()).catch(() => {});
-            }
-            return netRes;
-          })
-          .catch(() => cached);
-        return cached || fetchPromise;
-      })
-    );
-    return;
-  }
-
-  // 4. Same-origin App Shell -> Stale-while-revalidate
-  if (url.origin === self.location.origin) {
-    e.respondWith(
-      caches.open(SHELL_CACHE).then(async (cache) => {
-        const cached = await cache.match(req);
-        const fetchPromise = fetch(req)
-          .then((netRes) => {
-            if (netRes && netRes.status === 200) {
-              cache.put(req, netRes.clone()).catch(() => {});
-            }
-            return netRes;
-          })
-          .catch(() => cached);
-        return cached || fetchPromise;
-      })
-    );
-  }
+        })
+        .catch(() => cached);
+      return cached || fetchPromise;
+    })
+  );
 });
-

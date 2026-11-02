@@ -522,6 +522,33 @@ body.reader-open .grain,
   color: var(--muted);
 }
 
+.prog-empty-box {
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px;
+  gap: 6px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.prog-empty-ico {
+  width: 24px;
+  height: 24px;
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  opacity: 0.6;
+}
+
+.prog-empty-text {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .prog-item {
   position: relative;
   display: grid;
